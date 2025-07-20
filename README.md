@@ -25,15 +25,9 @@ This is a basic e-commerce admin panel built with Angular (frontend) and Node.js
 🌐 Frontend Setup
 Go to the frontend/ folder:
 
-bash
-Copy
-Edit
 cd frontend
 Install dependencies and start the frontend server:
 
-bash
-Copy
-Edit
 npm install
 ng serve
 Open your browser at http://localhost:4200 to see the app.
