@@ -1,0 +1,58 @@
+<mat-card>
+  <mat-card-title>Delete product</mat-card-title>
+  <form>
+    <!-- SKU -->
+    <mat-form-field>
+      <input
+        matInput
+        placeholder="SKU"
+        [value]="product.sku"
+        name="sku"
+        disabled
+      />
+    </mat-form-field>
+
+    <!-- Name -->
+    <mat-form-field>
+      <input
+        matInput
+        placeholder="Name"
+        [value]="product.name"
+        name="name"
+        disabled
+      />
+    </mat-form-field>
+
+    <!-- Price -->
+    <mat-form-field>
+      <input
+        matInput
+        placeholder="Price (R$)"
+        [value]="product.price"
+        name="price"
+        disabled
+      />
+    </mat-form-field>
+
+    <!-- Images preview -->
+    <div *ngIf="product.images?.length > 0">
+      <p>Images:</p>
+      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+        <img
+          *ngFor="let img of product.images"
+          [src]="'http://localhost:3000/uploads/' + img"
+          alt="Product image"
+          width="100"
+          height="100"
+          style="object-fit: cover; border: 1px solid #ccc;"
+        />
+      </div>
+    </div>
+  </form>
+
+  <button mat-raised-button (click)="deleteProduct()" color="warn">
+    Delete
+  </button>
+
+  <button mat-raised-button (click)="cancel()">Cancel</button>
+</mat-card>

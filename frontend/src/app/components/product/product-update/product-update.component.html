@@ -1,0 +1,97 @@
+<mat-card>
+  <mat-card-title>Update Product</mat-card-title>
+
+  <form>
+    <!-- SKU -->
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>SKU</mat-label>
+      <input
+        matInput
+        [(ngModel)]="product.sku"
+        name="sku"
+        required
+        (blur)="checkSkuUniqueness()"
+      />
+      <mat-error *ngIf="skuError">{{ skuError }}</mat-error>
+    </mat-form-field>
+
+    <!-- Name -->
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Name</mat-label>
+      <input matInput [(ngModel)]="product.name" name="name" required />
+    </mat-form-field>
+
+    <!-- Price -->
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Price (R$)</mat-label>
+      <input
+        matInput
+        type="number"
+        [(ngModel)]="product.price"
+        name="price"
+        required
+      />
+    </mat-form-field>
+
+    <!-- Upload New Images -->
+    <div style="margin: 10px 0;">
+      <input
+        type="file"
+        #fileInput
+        (change)="onImageSelected($event)"
+        multiple
+        style="display: none;"
+      />
+      <button mat-raised-button color="primary" (click)="fileInput.click()">
+        Choose Additional Images
+      </button>
+    </div>
+
+    <div *ngIf="newImages.length > 0" style="margin-bottom: 10px;">
+      <p>Selected new images ({{ newImages.length }} files):</p>
+      <ul>
+        <li *ngFor="let img of newImages">{{ img.name }}</li>
+      </ul>
+    </div>
+
+    <!-- Existing Images with Replace -->
+    <div *ngIf="product.images?.length">
+      <p>Existing Images (click an image to replace):</p>
+      <div class="image-preview-container">
+        <div
+          class="preview-img"
+          *ngFor="let img of product.images"
+          style="display: inline-block; margin: 10px; text-align: center;"
+        >
+          <button mat-icon-button color="warn" (click)="onDeleteImage(img)">
+            <mat-icon>delete</mat-icon>
+          </button>
+
+          <img
+            [src]="'http://localhost:3000/uploads/' + img"
+            width="100"
+            height="100"
+            style="cursor: pointer; border: 1px solid #ccc; object-fit: cover;"
+            (click)="triggerFileInput(img)"
+          />
+          <input
+            type="file"
+            [id]="img"
+            style="display: none;"
+            (change)="onReplaceImage(img, $event)"
+          />
+          <div *ngIf="replacementMap[img]" style="color: green;">
+            ✔️ Replaced
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <div style="margin-top: 20px;">
+    <button mat-raised-button color="primary" (click)="updateProduct()">
+      Update
+    </button>
+    <button mat-raised-button color="warn" (click)="cancel()">Cancel</button>
+  </div>
+</mat-card>

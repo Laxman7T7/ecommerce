@@ -1,0 +1,83 @@
+<mat-card class="product-form-card">
+  <mat-card-title>Create Product</mat-card-title>
+
+  <form #productForm="ngForm">
+    <!-- SKU Field -->
+   <mat-form-field appearance="fill" class="full-width">
+  <mat-label>SKU</mat-label>
+  <input
+    matInput
+    placeholder="Enter SKU"
+    [(ngModel)]="product.sku"
+    name="sku"
+    required
+    (blur)="checkSkuUniqueness()"
+  />
+  <mat-error *ngIf="skuExists">
+    SKU already exists. Please choose a different one.
+  </mat-error>
+</mat-form-field>
+
+
+    <!-- Name Field -->
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Name</mat-label>
+      <input
+        matInput
+        placeholder="Product Name"
+        [(ngModel)]="product.name"
+        name="name"
+        required
+      />
+    </mat-form-field>
+
+    <!-- Price Field -->
+    <mat-form-field appearance="fill" class="full-width">
+  <mat-label>Price (₹)</mat-label>
+  <input
+  matInput
+  type="number"
+  step="0.01"
+  [(ngModel)]="product.price"
+  name="price"
+  required
+/>
+</mat-form-field>
+
+    <!-- Upload Images -->
+    <div style="margin-bottom: 10px;">
+      <button mat-raised-button color="accent" type="button" (click)="triggerFileInput()">
+        <mat-icon>add_a_photo</mat-icon> Choose Images
+      </button>
+      <input
+        type="file"
+        id="imageInput"
+        multiple
+        (change)="onImageSelected($event)"
+        style="display: none"
+        accept="image/*"
+      />
+    </div>
+
+    <!-- Preview Selected Images -->
+    <div class="image-preview" *ngIf="previewUrls.length > 0">
+      <div *ngFor="let url of previewUrls" class="preview-img" style="display: inline-block; margin: 10px;">
+        <img [src]="url" width="100" height="100" style="object-fit: cover;" />
+      </div>
+    </div>
+  </form>
+
+  <!-- Action Buttons -->
+  <div style="margin-top: 20px;">
+    <button
+  mat-raised-button
+  color="primary"
+  (click)="createProduct()"
+  [disabled]="skuExists"
+>
+  Save
+</button>
+
+    <button mat-raised-button (click)="cancel()">Cancel</button>
+  </div>
+</mat-card>

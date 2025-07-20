@@ -1,0 +1,36 @@
+<div class="product-grid">
+  <div *ngFor="let product of dataSource.data" class="product-card mat-elevation-z4">
+    
+    <!-- Image Carousel -->
+    <div class="carousel-wrapper">
+      <img
+        *ngIf="product.images?.length"
+        [src]="'http://localhost:3000/uploads/' + getCurrentImage(product)"
+        class="product-image"
+        alt="{{ product.name }}"
+      />
+      <div class="carousel-buttons" *ngIf="product.images.length > 1">
+        <button (click)="prevImage(product)">‹</button>
+        <button (click)="nextImage(product)">›</button>
+      </div>
+    </div>
+
+    <!-- Product Details -->
+    <div class="product-details">
+       <p class="sku"><strong>SKU:</strong> {{ product.sku }}</p>
+      <h3>{{ product.name }}</h3>
+    <p class="price">{{ product.price | currency:'INR':'symbol':'1.0-0':'en-US' }}</p>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="card-actions">
+      <a [routerLink]="'/products/update/' + product.id" class="edit" title="Edit">
+        <i class="material-icons">edit</i>
+      </a>
+      <a [routerLink]="'/products/delete/' + product.id" class="delete" title="Delete">
+        <i class="material-icons">delete</i>
+      </a>
+    </div>
+
+  </div>
+</div>
